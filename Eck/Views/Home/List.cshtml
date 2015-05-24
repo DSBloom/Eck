@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Eck.Models.TestData>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TeamName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TeamOwner)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TeamOwnerEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Digit00)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Digit01)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Digit02)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Digit03)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Digit04)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Digit05)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Digit06)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Digit07)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Digit08)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Digit09)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TeamName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TeamOwner)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TeamOwnerEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Digit00)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Digit01)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Digit02)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Digit03)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Digit04)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Digit05)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Digit06)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Digit07)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Digit08)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Digit09)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
