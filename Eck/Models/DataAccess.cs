@@ -43,5 +43,48 @@ namespace Eck.Models
 
             }
         }
+
+        internal static List<TestData> GetTestData()
+        {
+            List<TestData> testList = new List<TestData>();
+            SqlConnection conn = new SqlConnection(@"Server=tcp:ye8viai1bq.database.windows.net,1433;Database=Eck01_db;User ID=nadcraker@ye8viai1bq;Password=Fallout!@#$;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            string selectText = @"SELECT * From Teams";
+            SqlCommand cmd = new SqlCommand(selectText, conn);
+
+            try
+            {
+                conn.Open();
+                if(conn.State == System.Data.ConnectionState.Open)
+                {
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while(reader.Read())
+                    {
+                        TestData test = new TestData();
+
+                        test.Digit00 = (bool)reader["digit00"];
+                        test.Digit01 = (bool)reader["digit01"];
+                        test.Digit02 = (bool)reader["digit02"];
+                        test.Digit03 = (bool)reader["digit03"];
+                        test.Digit04 = (bool)reader["digit04"];
+                        test.Digit05 = (bool)reader["digit05"];
+                        test.Digit06 = (bool)reader["digit06"];
+                        test.Digit07 = (bool)reader["digit07"];
+                        test.Digit08 = (bool)reader["digit08"];
+                        test.Digit09 = (bool)reader["digit09"];
+                        test.Id = (int)reader["id"];
+                        test.TeamName = (string)reader["TeamName"];
+                        test.TeamOwner = (string)reader["TeamOwner"];
+                        test.TeamOwnerEmail = (string)reader["TeamOwnerEmail"];
+
+                        testList.Add(test);
+                    }
+                }
+            }            
+            catch(Exception ex)
+            {
+
+            }
+            return testList;
+        }
     }
 }

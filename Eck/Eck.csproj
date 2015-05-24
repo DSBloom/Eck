@@ -132,6 +132,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\bbIcon.png" />
+    <Content Include="Images\baseball.jpg" />
+    <Content Include="Images\SB-Baseball-Camp.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\Eck01.pubxml" />

@@ -37,9 +37,10 @@ namespace Eck.Controllers
 
         public ActionResult List()
         {
+            List < TestData > testList = DataAccess.GetTestData();
             ViewBag.Message = "Showing database records.";
 
-            return View();
+            return View(testList);
         }
 
         [HttpPost]
