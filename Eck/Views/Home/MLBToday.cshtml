@@ -1,0 +1,43 @@
+﻿@using XMLStats
+@model XMLStats.EventList
+
+@{
+    ViewBag.Title = "MLBToday";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MLBToday</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.events_date)
+        </th>
+    </tr>
+
+@foreach (Event singleEvent in Model.@event) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => singleEvent.home_team)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => singleEvent.away_team)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => singleEvent.start_date_time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => singleEvent.event_status)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

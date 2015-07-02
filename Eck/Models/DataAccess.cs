@@ -8,8 +8,6 @@ namespace Eck.Models
 {
     public class DataAccess
     {
-        public  static SqlConnection ConnectionString { get; set; }
-
         internal static void InsertTestData(TestData model)
         {
             SqlConnection conn = new SqlConnection(@"Server=tcp:ye8viai1bq.database.windows.net,1433;Database=Eck01_db;User ID=nadcraker@ye8viai1bq;Password=Fallout!@#$;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -86,5 +84,8 @@ namespace Eck.Models
             }
             return testList;
         }
+
+        //My code
+        
     }
 }

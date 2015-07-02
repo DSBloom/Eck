@@ -54,5 +54,18 @@ namespace Eck.Controllers
 
             return View(model);
         }
+
+        public ActionResult MLBToday()
+        {
+            XMLStats.EventsRequest er = new XMLStats.EventsRequest("a36e424b-8c00-48c1-8b2d-d112f8ce61b0", "nadcraker@gmail.com");
+            XMLStats.EventList evtList = er.get("mlb", DateTime.Today);
+
+            XMLStats.MLBBoxScoreRequest mbsr = new XMLStats.MLBBoxScoreRequest("a36e424b-8c00-48c1-8b2d-d112f8ce61b0", "nadcraker@gmail.com");
+            foreach(XMLStats.Event evt in evtList)
+
+
+
+            return View(list);
+        }
     }
 }
