@@ -1,5 +1,4 @@
-﻿@using XMLStats
-@model XMLStats.EventList
+﻿@model IEnumerable<Eck.Models.EckGame>
 
 @{
     ViewBag.Title = "MLBToday";
@@ -14,23 +13,51 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.events_date)
+            @Html.DisplayNameFor(model => model.HomeScore)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeLastDigit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AwayScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AwayLastDigit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeTeam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AwayTeam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GameDate)
+        </th>
+        <th></th>
     </tr>
 
-@foreach (Event singleEvent in Model.@event) {
+@foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => singleEvent.home_team)
+            @Html.DisplayFor(modelItem => item.HomeScore)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => singleEvent.away_team)
+            @Html.DisplayFor(modelItem => item.HomeLastDigit)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => singleEvent.start_date_time)
+            @Html.DisplayFor(modelItem => item.AwayScore)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => singleEvent.event_status)
+            @Html.DisplayFor(modelItem => item.AwayLastDigit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HomeTeam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AwayTeam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GameDate)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

@@ -117,6 +117,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataAccess.cs" />
+    <Compile Include="Models\EckGame.cs" />
+    <Compile Include="Models\EckPlayer.cs" />
+    <Compile Include="Models\EckTeam.cs" />
     <Compile Include="Models\TestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
