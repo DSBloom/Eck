@@ -46,8 +46,8 @@ namespace GetScores
                 {
                     foreach (Event singleEvent in eList.@event)
                     {
-
-                        if (DateTime.TryParse(singleEvent.start_date_time, out eventDate))
+                        DateTime tempDate;
+                        if (DateTime.TryParse(singleEvent.start_date_time, out tempDate))
                         {
                             try
                             {
@@ -110,6 +110,11 @@ namespace GetScores
 
                                 continue;
                             }
+                        }
+                        else
+                        {
+                            //We weren't able to parse the event date in SingleEvent.events_date
+                            Console.Error.WriteLine("We weren't able to parse the event date in SingleEvent.events_date");
                         }
                     }
                     Console.Out.WriteLine("     Incrementing the day...");
