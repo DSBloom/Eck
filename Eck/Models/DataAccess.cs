@@ -13,6 +13,7 @@ namespace Eck.Models
             SqlConnection conn = new SqlConnection(@"Server=tcp:ye8viai1bq.database.windows.net,1433;Database=Eck01_db;User ID=nadcraker@ye8viai1bq;Password=Fallout!@#$;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             string insertText = @"INSERT INTO Teams (TeamName, TeamOwner, Digit00, Digit01, Digit02, Digit03, Digit04, Digit05, Digit06, Digit07, Digit08, Digit09, TeamOwnerEmail) " +
                                  "VALUES (@TeamName, @TeamOwner, @Digit00, @Digit01, @Digit02, @Digit03, @Digit04, @Digit05, @Digit06, @Digit07, @Digit08, @Digit09, @TeamOwnerEmail)";
+
             SqlCommand cmd = new SqlCommand(insertText, conn);
             cmd.Parameters.AddWithValue("TeamName", model.TeamName);
             cmd.Parameters.AddWithValue("TeamOwner", model.TeamOwner);
@@ -36,7 +37,7 @@ namespace Eck.Models
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch(Exception ex)
+            catch
             {
 
             }
@@ -78,14 +79,11 @@ namespace Eck.Models
                     }
                 }
             }            
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }
             return testList;
-        }
-
-        //My code
-        
+        }        
     }
 }
