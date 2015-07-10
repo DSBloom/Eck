@@ -105,6 +105,47 @@ namespace GetScores
             }
         }
 
+        internal static GameStatus GameStatus(Event SingleEvent)
+        {
+            Event _event = SingleEvent;
+            GameStatus gs = new GameStatus();
+
+            //SQL Connection and Command objects
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "Select * from Games where gameID=@gameID";
+            cmd.Parameters.AddWithValue("gameID", _event.event_id);
+
+            //Open the connection if need be
+            if (conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
+            //Check if the event is in the database
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    gs.IsGameInDb = true;
+                    gs.Status = reader["GameStatus"].ToString();                    
+                }
+
+                return gs;
+            }
+            else
+            {
+                gs.IsGameInDb = false;
+                gs.Status = null;
+
+                return gs;
+            }
+        }
+
         internal static SqlReturnObject UpdateEvent(Event SingleEvent)
         {
             XMLStats.Event _event = SingleEvent;
@@ -173,5 +214,11 @@ namespace GetScores
     {
         public bool Success { get; set; }
         public string ErrorMessage { get; set; }
+    }
+
+    public class GameStatus
+    {
+        public bool IsGameInDb { get; set; }
+        public string Status { get; set; }
     }
 }
