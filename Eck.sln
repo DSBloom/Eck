@@ -9,6 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLStats4Net", "..\..\..\..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetScores", "GetScores\GetScores.csproj", "{38AA1879-12A6-49B2-84B6-8F633D929D50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionBuilder", "SessionBuilder\SessionBuilder.csproj", "{567FB69E-62AD-498B-B245-4CECE5863C1C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5903F400-49CF-4B90-B485-E4C20CFD2E6A}"
+	ProjectSection(SolutionItems) = preProject
+		GetScores\DataAccess.cs = GetScores\DataAccess.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +34,10 @@ Global
 		{38AA1879-12A6-49B2-84B6-8F633D929D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38AA1879-12A6-49B2-84B6-8F633D929D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38AA1879-12A6-49B2-84B6-8F633D929D50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{567FB69E-62AD-498B-B245-4CECE5863C1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{567FB69E-62AD-498B-B245-4CECE5863C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{567FB69E-62AD-498B-B245-4CECE5863C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{567FB69E-62AD-498B-B245-4CECE5863C1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

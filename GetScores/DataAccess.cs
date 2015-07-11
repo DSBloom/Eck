@@ -9,7 +9,7 @@ using XMLStats;
 
 namespace GetScores
 {
-    class DataAccess
+    public class DataAccess
     {
         public static Boolean IsEventInDb(XMLStats.Event SingleEvent)
         {
@@ -40,6 +40,48 @@ namespace GetScores
             {
                 return false;
             }
+        }
+
+        public static List<Game> GetGames()
+        {
+            List<Game> games = new List<Game>();
+
+            //SQL Connection and Command objects
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "Select * from Games order by GameDate";
+
+            //Open the connection if need be
+            if (conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
+            //Check if the event is in the database
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Game g = new Game();
+
+                    g.GameID = reader["GameID"].ToString();
+                    g.HomeScore = Convert.ToInt16(reader["HomeScore"]);
+                    g.HomeLastDigit = Convert.ToInt16(reader["HomeLastDigit"]);
+                    g.AwayScore = Convert.ToInt16(reader["AwayScore"]);
+                    g.AwayLastDigit = Convert.ToInt16(reader["AwayLastDigit"]);
+                    g.HomeTeam = reader["HomeTeam"].ToString();
+                    g.AwayTeam = reader["AwayTeam"].ToString();
+                    g.GameDate = DateTime.Parse(reader["GameDate"].ToString());
+
+                    games.Add(g);
+                }
+            }
+
+            return games;
         }
 
         public static SqlReturnObject InsertEvent(XMLStats.Event SingleEvent)
@@ -97,7 +139,7 @@ namespace GetScores
                 sro.ErrorMessage = null;
                 return sro;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 sro.Success = false;
                 sro.ErrorMessage = ex.Message;
@@ -132,7 +174,7 @@ namespace GetScores
                 while (reader.Read())
                 {
                     gs.IsGameInDb = true;
-                    gs.Status = reader["GameStatus"].ToString();                    
+                    gs.Status = reader["GameStatus"].ToString();
                 }
 
                 return gs;
@@ -220,5 +262,41 @@ namespace GetScores
     {
         public bool IsGameInDb { get; set; }
         public string Status { get; set; }
+    }
+
+    public class Session
+    {
+        public Guid SessionID { get; set; }
+        public string SessionState { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public Player WinningPlayer { get; set; }
+        public string WinningTeam { get; set; }
+        public decimal PotValue { get; set; }
+    }
+
+    public class TeamProgress
+    {
+
+    }
+
+    public class Game
+    {
+        public string GameID { get; set; }
+        public int HomeScore { get; set; }
+        public int HomeLastDigit { get; set; }
+        public int AwayScore { get; set; }
+        public int AwayLastDigit { get; set; }
+        public string HomeTeam { get; set; }
+        public string AwayTeam { get; set; }
+        public DateTime GameDate { get; set; }
+    }
+
+    public class Player
+    {
+        public int ID { get; set; }
+        public int TeamID { get; set; }
+        public string PlayerName { get; set; }
+        public string PlayerEmail { get; set; }
     }
 }
