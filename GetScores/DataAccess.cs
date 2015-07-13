@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using XMLStats;
+using System.Data;
 
 namespace GetScores
 {
@@ -34,10 +35,12 @@ namespace GetScores
 
             if (reader.HasRows)
             {
+                conn.Close();
                 return true;
             }
             else
             {
+                conn.Close();
                 return false;
             }
         }
@@ -51,7 +54,7 @@ namespace GetScores
             conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "Select * SessionDays where SessionID=@SessionID order by SessionDayDate";
+            cmd.CommandText = "Select * From SessionDays where SessionID=@SessionID order by SessionDayDate";
             cmd.Parameters.AddWithValue("SessionID", sessionID);
 
             //Open the connection if need be
@@ -69,258 +72,435 @@ namespace GetScores
                 {
                     SessionDay sd = new SessionDay();
 
-                    sd.SessionDayID = (Guid)reader["SessionStatus"];
+                    sd.SessionDayID = (Guid)reader["SessionDayID"];
                     sd.SessionID = (Guid)reader["SessionID"];                    
                     sd.SessionDayDate = (DateTime)reader["SessionDayDate"];
-                    //sd.GamesThisSession figure this out here or in the calling code?
+                    sd.GamesThisSessionDay = (int)reader["GamesThisSessionDate"];
 
-                    sd.arizonaDiamondbacksDigit = (int)reader["arizonaDiamondbacksDigit"];
-                    sd.atlantaBravesDigit = (int)reader["atlantaBravesDigit"];
-                    sd.baltimoreOriolesDigit = (int)reader["baltimoreOriolesDigit"];
-                    sd.bostonRedSoxDigit = (int)reader["bostonRedSoxDigit"];
-                    sd.chicagoCubsDigit = (int)reader["chicagoCubsDigit"];
-                    sd.chicagoWhiteSoxDigit = (int)reader["chicagoWhiteSoxDigit"];
-                    sd.cincinnatiRedsDigit = (int)reader["cincinnatiRedsDigit"];
-                    sd.clevelandIndiansDigit = (int)reader["clevelandIndiansDigit"];
-                    sd.coloradoRockiesDigit = (int)reader["coloradoRockiesDigit"];
-                    sd.detroitTigersDigit = (int)reader["detroitTigersDigit"];
-                    sd.houstonAstrosDigit = (int)reader["houstonAstrosDigit"];
-                    sd.kansasCityRoyalsDigit = (int)reader["kansasCityRoyalsDigit"];
-                    sd.losAngelesAngelsDigit = (int)reader["losAngelesAngelsDigit"];
-                    sd.losAngelesDodgersDigit = (int)reader["losAngelesDodgersDigit"];
-                    sd.miamiMarlinsDigit = (int)reader["miamiMarlinsDigit"];
-                    sd.milwaukeeBrewersDigit = (int)reader["milwaukeeBrewersDigit"];
-                    sd.minnesotaTwinsDigit = (int)reader["minnesotaTwinsDigit"];
-                    sd.newYorkMetsDigit = (int)reader["newYorkMetsDigit"];
-                    sd.newYorkYankeesDigit = (int)reader["newYorkYankeesDigit"];
-                    sd.oaklandAthleticsDigit = (int)reader["oaklandAthleticsDigit"];
-                    sd.philadelphiaPhilliesDigit = (int)reader["philadelphiaPhilliesDigit"];
-                    sd.pittsburghPiratesDigit = (int)reader["pittsburghPiratesDigit"];
-                    sd.sanDiegoPadresDigit = (int)reader["sanDiegoPadresDigit"];
-                    sd.sanFranciscoGiantsDigit = (int)reader["sanFranciscoGiantsDigit"];
-                    sd.seattleMarinersDigit = (int)reader["seattleMarinersDigit"];
-                    sd.stLouisCardinalsDigit = (int)reader["stLouisCardinalsDigit"];
-                    sd.tampaBayRaysDigit = (int)reader["tampaBayRaysDigit"];
-                    sd.texasRangersDigit = (int)reader["texasRangersDigit"];
-                    sd.torontoBlueJaysDigit = (int)reader["torontoBlueJaysDigit"];
-                    sd.washingtonNationalsDigit = (int)reader["washingtonNationalsDigit"];
+                    sd.arizonaDiamondbacksDigit = reader["arizonaDiamondbacksDigit"].ToString();
+                    sd.atlantaBravesDigit = reader["atlantaBravesDigit"].ToString();
+                    sd.baltimoreOriolesDigit = reader["baltimoreOriolesDigit"].ToString();
+                    sd.bostonRedSoxDigit = reader["bostonRedSoxDigit"].ToString();
+                    sd.chicagoCubsDigit = reader["chicagoCubsDigit"].ToString();
+                    sd.chicagoWhiteSoxDigit = reader["chicagoWhiteSoxDigit"].ToString();
+                    sd.cincinnatiRedsDigit = reader["cincinnatiRedsDigit"].ToString();
+                    sd.clevelandIndiansDigit = reader["clevelandIndiansDigit"].ToString();
+                    sd.coloradoRockiesDigit = reader["coloradoRockiesDigit"].ToString();
+                    sd.detroitTigersDigit = reader["detroitTigersDigit"].ToString();
+                    sd.houstonAstrosDigit = reader["houstonAstrosDigit"].ToString();
+                    sd.kansasCityRoyalsDigit = reader["kansasCityRoyalsDigit"].ToString();
+                    sd.losAngelesAngelsDigit = reader["losAngelesAngelsDigit"].ToString();
+                    sd.losAngelesDodgersDigit = reader["losAngelesDodgersDigit"].ToString();
+                    sd.miamiMarlinsDigit = reader["miamiMarlinsDigit"].ToString();
+                    sd.milwaukeeBrewersDigit = reader["milwaukeeBrewersDigit"].ToString();
+                    sd.minnesotaTwinsDigit = reader["minnesotaTwinsDigit"].ToString();
+                    sd.newYorkMetsDigit = reader["newYorkMetsDigit"].ToString();
+                    sd.newYorkYankeesDigit = reader["newYorkYankeesDigit"].ToString();
+                    sd.oaklandAthleticsDigit = reader["oaklandAthleticsDigit"].ToString();
+                    sd.philadelphiaPhilliesDigit = reader["philadelphiaPhilliesDigit"].ToString();
+                    sd.pittsburghPiratesDigit = reader["pittsburghPiratesDigit"].ToString();
+                    sd.sanDiegoPadresDigit = reader["sanDiegoPadresDigit"].ToString();
+                    sd.sanFranciscoGiantsDigit = reader["sanFranciscoGiantsDigit"].ToString();
+                    sd.seattleMarinersDigit = reader["seattleMarinersDigit"].ToString();
+                    sd.stLouisCardinalsDigit = reader["stLouisCardinalsDigit"].ToString();
+                    sd.tampaBayRaysDigit = reader["tampaBayRaysDigit"].ToString();
+                    sd.texasRangersDigit = reader["texasRangersDigit"].ToString();
+                    sd.torontoBlueJaysDigit = reader["torontoBlueJaysDigit"].ToString();
+                    sd.washingtonNationalsDigit = reader["washingtonNationalsDigit"].ToString();
 
                     sessionDays.Add(sd);
                 }
             }
+            conn.Close();
             return sessionDays;
         }
 
-        public static void InsertSessionDay(List<Game> Games)
+        public static bool UpdateSessionWithWinners(List<string> winningTeams, Session session, DateTime endDate)
         {
-            SessionDay sd = new SessionDay();
-            sd.SessionDayID = Guid.NewGuid();
-            //sd.SessionID = Look up somehow. Accept a Session in the parameter list for this method and use that SessionID?
-            sd.SessionDayDate = Games[0].GameDate; //Assumes Games has Game objects in it.
-            sd.GamesThisSessionDay = Games.Count;
+            string winners = string.Join("-", winningTeams);
 
             //SQL Connection and Command objects
             SqlConnection conn = new SqlConnection();
             conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "Insert "; //Long ass insert statement with hella params 'n shit
-            //cmd.Parameters.Add //ADD ALL THE STUPID PARAMETERS FOR EVERY TEAM
+            cmd.CommandText = "Update Session Set WinningTeam=@WinningTeams, SessionStatus=@SessionStatus, EndDate=@EndDate, Where SessionID=@SessionID";
+            cmd.Parameters.AddWithValue("SessionID", session.SessionID);
+            cmd.Parameters.AddWithValue("WinningTeams", winners);
+            cmd.Parameters.AddWithValue("SessionStatus", "Completed");
+            cmd.Parameters.AddWithValue("EndDate", endDate.Date);
 
-            foreach (Game g in Games)
+            //Open the connection if need be
+            if (conn.State != System.Data.ConnectionState.Open)
             {
-                //Build the parameters depending on what scores were had that day for whatever teams
-                #region GnarlySwitch
-                switch (g.HomeTeam)
-                {
-                    case "Arizona Diamondbacks":
-                        sd.arizonaDiamondbacksDigit = g.HomeLastDigit;
-                        break;
-                    case "Atlanta Braves":
-                        sd.atlantaBravesDigit = g.HomeLastDigit;
-                        break;
-                    case "Baltimore Orioles":
-                        sd.baltimoreOriolesDigit = g.HomeLastDigit;
-                        break;
-                    case "Boston Red Sox":
-                        sd.bostonRedSoxDigit = g.HomeLastDigit;
-                        break;
-                    case "Chicago Cubs":
-                        sd.chicagoCubsDigit = g.HomeLastDigit;
-                        break;
-                    case "Chicago White Sox":
-                        sd.chicagoWhiteSoxDigit = g.HomeLastDigit;
-                        break;
-                    case "Cincinnati Reds":
-                        sd.cincinnatiRedsDigit = g.HomeLastDigit;
-                        break;
-                    case "Cleveland Indians":
-                        sd.clevelandIndiansDigit = g.HomeLastDigit;
-                        break;
-                    case "Colorado Rockies":
-                        sd.coloradoRockiesDigit = g.HomeLastDigit;
-                        break;
-                    case "Detroit Tigers":
-                        sd.detroitTigersDigit = g.HomeLastDigit;
-                        break;
-                    case "Houston Astros":
-                        sd.houstonAstrosDigit = g.HomeLastDigit;
-                        break;
-                    case "Kansas City Royals":
-                        sd.kansasCityRoyalsDigit = g.HomeLastDigit;
-                        break;
-                    case "Los Angeles Angels":
-                        sd.losAngelesAngelsDigit = g.HomeLastDigit;
-                        break;
-                    case "Los Angeles Dodgers":
-                        sd.losAngelesDodgersDigit = g.HomeLastDigit;
-                        break;
-                    case "Miami Marlins":
-                        sd.miamiMarlinsDigit = g.HomeLastDigit;
-                        break;
-                    case "Milwaukee Brewers":
-                        sd.milwaukeeBrewersDigit = g.HomeLastDigit;
-                        break;
-                    case "Minnesota Twins":
-                        sd.minnesotaTwinsDigit = g.HomeLastDigit;
-                        break;
-                    case "New York Mets":
-                        sd.newYorkMetsDigit = g.HomeLastDigit;
-                        break;
-                    case "New York Yankees":
-                        sd.newYorkYankeesDigit = g.HomeLastDigit;
-                        break;
-                    case "Oakland Athletics":
-                        sd.oaklandAthleticsDigit = g.HomeLastDigit;
-                        break;
-                    case "Philadelphia Phillies":
-                        sd.philadelphiaPhilliesDigit = g.HomeLastDigit;
-                        break;
-                    case "Pittsburgh Pirates":
-                        sd.pittsburghPiratesDigit = g.HomeLastDigit;
-                        break;
-                    case "San Diego Padres":
-                        sd.sanDiegoPadresDigit = g.HomeLastDigit;
-                        break;
-                    case "San Francisco Giants":
-                        sd.sanFranciscoGiantsDigit = g.HomeLastDigit;
-                        break;
-                    case "Seattle Mariners":
-                        sd.seattleMarinersDigit = g.HomeLastDigit;
-                        break;
-                    case "St. Louis Cardinals":
-                        sd.stLouisCardinalsDigit = g.HomeLastDigit;
-                        break;
-                    case "Tampa Bay Rays":
-                        sd.tampaBayRaysDigit = g.HomeLastDigit;
-                        break;
-                    case "Texas Rangers":
-                        sd.texasRangersDigit = g.HomeLastDigit;
-                        break;
-                    case "Toronto Blue Jays":
-                        sd.torontoBlueJaysDigit = g.HomeLastDigit;
-                        break;
-                    case "Washington Nationals":
-                        sd.washingtonNationalsDigit = g.HomeLastDigit;
-                        break;
-                }
-
-                //switch g.AwayTeam
-                switch (g.AwayTeam)
-                {
-                    case "Arizona Diamondbacks":
-                        sd.arizonaDiamondbacksDigit = g.AwayLastDigit;
-                        break;
-                    case "Atlanta Braves":
-                        sd.atlantaBravesDigit = g.AwayLastDigit;
-                        break;
-                    case "Baltimore Orioles":
-                        sd.baltimoreOriolesDigit = g.AwayLastDigit;
-                        break;
-                    case "Boston Red Sox":
-                        sd.bostonRedSoxDigit = g.AwayLastDigit;
-                        break;
-                    case "Chicago Cubs":
-                        sd.chicagoCubsDigit = g.AwayLastDigit;
-                        break;
-                    case "Chicago White Sox":
-                        sd.chicagoWhiteSoxDigit = g.AwayLastDigit;
-                        break;
-                    case "Cincinnati Reds":
-                        sd.cincinnatiRedsDigit = g.AwayLastDigit;
-                        break;
-                    case "Cleveland Indians":
-                        sd.clevelandIndiansDigit = g.AwayLastDigit;
-                        break;
-                    case "Colorado Rockies":
-                        sd.coloradoRockiesDigit = g.AwayLastDigit;
-                        break;
-                    case "Detroit Tigers":
-                        sd.detroitTigersDigit = g.AwayLastDigit;
-                        break;
-                    case "Houston Astros":
-                        sd.houstonAstrosDigit = g.AwayLastDigit;
-                        break;
-                    case "Kansas City Royals":
-                        sd.kansasCityRoyalsDigit = g.AwayLastDigit;
-                        break;
-                    case "Los Angeles Angels":
-                        sd.losAngelesAngelsDigit = g.AwayLastDigit;
-                        break;
-                    case "Los Angeles Dodgers":
-                        sd.losAngelesDodgersDigit = g.AwayLastDigit;
-                        break;
-                    case "Miami Marlins":
-                        sd.miamiMarlinsDigit = g.AwayLastDigit;
-                        break;
-                    case "Milwaukee Brewers":
-                        sd.milwaukeeBrewersDigit = g.AwayLastDigit;
-                        break;
-                    case "Minnesota Twins":
-                        sd.minnesotaTwinsDigit = g.AwayLastDigit;
-                        break;
-                    case "New York Mets":
-                        sd.newYorkMetsDigit = g.AwayLastDigit;
-                        break;
-                    case "New York Yankees":
-                        sd.newYorkYankeesDigit = g.AwayLastDigit;
-                        break;
-                    case "Oakland Athletics":
-                        sd.oaklandAthleticsDigit = g.AwayLastDigit;
-                        break;
-                    case "Philadelphia Phillies":
-                        sd.philadelphiaPhilliesDigit = g.AwayLastDigit;
-                        break;
-                    case "Pittsburgh Pirates":
-                        sd.pittsburghPiratesDigit = g.AwayLastDigit;
-                        break;
-                    case "San Diego Padres":
-                        sd.sanDiegoPadresDigit = g.AwayLastDigit;
-                        break;
-                    case "San Francisco Giants":
-                        sd.sanFranciscoGiantsDigit = g.AwayLastDigit;
-                        break;
-                    case "Seattle Mariners":
-                        sd.seattleMarinersDigit = g.AwayLastDigit;
-                        break;
-                    case "St. Louis Cardinals":
-                        sd.stLouisCardinalsDigit = g.AwayLastDigit;
-                        break;
-                    case "Tampa Bay Rays":
-                        sd.tampaBayRaysDigit = g.AwayLastDigit;
-                        break;
-                    case "Texas Rangers":
-                        sd.texasRangersDigit = g.AwayLastDigit;
-                        break;
-                    case "Toronto Blue Jays":
-                        sd.torontoBlueJaysDigit = g.AwayLastDigit;
-                        break;
-                    case "Washington Nationals":
-                        sd.washingtonNationalsDigit = g.AwayLastDigit;
-                        break;
-                } 
-                #endregion
+                conn.Open();
             }
+
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static List<string> GetWinners(Session latestSess)
+        {
+            List<string> winners = new List<string>();
+
+            //SQL Connection and Command objects
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "Select * from Sessions Where SessionID=@SessionID";
+            cmd.Parameters.AddWithValue("SessionID", latestSess.SessionID);
+
+            if(conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if(reader.HasRows)
+            {                
+                while(reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        string colName = reader.GetName(i);
+                        if (colName.Contains("DigitsNeeded"))
+                        {
+                            string dNeeded = reader[colName].ToString();
+                            if (dNeeded == "")
+                            {
+                                //This time has no digits needed, and is a winnah!
+                                int index = colName.IndexOf("DigitsNeeded");
+                                string cleanTeamName = (index < 0) ? colName : colName.Remove(index, "DigitsNeeded".Length);
+                                winners.Add(cleanTeamName);
+                            }
+                        }
+                    }
+
+                    //var table = reader.GetSchemaTable();
+                    //foreach(DataColumn column in table.Columns)
+                    //{
+                    //    if(column.ColumnName.Contains("DigitsNeeded"))
+                    //    {
+                    //        string dNeeded = reader[column.ColumnName].ToString();
+                    //        if(dNeeded == "")
+                    //        {
+                    //            //This time has no digits needed, and is a winnah!
+                    //            int index = column.ColumnName.IndexOf("DigitsNeeded");
+                    //            string cleanTeamName = (index < 0) ? column.ColumnName : column.ColumnName.Remove(index, "DigitsNeeded".Length);
+                    //            winners.Add(cleanTeamName);
+                    //        }
+                    //    }
+                    //}
+                }
+            }
+            conn.Close();
+            return winners;
+        }
+
+        public static bool InsertSessionDay(Session Session)
+        {
+            //SQL Connection and Command objects
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = @"Insert INTO Sessions (SessionID, SessionStatus, CurrentPot, StartDate, EndDate, WinningTeam, WinningPlayer, arizonaDiamondbacksDigitsNeeded, atlantaBravesDigitsNeeded, baltimoreOriolesDigitsNeeded, " +
+                "bostonRedSoxDigitsNeeded, chicagoCubsDigitsNeeded, chicagoWhiteSoxDigitsNeeded, cincinnatiRedsDigitsNeeded, clevelandIndiansDigitsNeeded, coloradoRockiesDigitsNeeded, detroitTigersDigitsNeeded, houstonAstrosDigitsNeeded, kansasCityRoyalsDigitsNeeded, " +
+                "losAngelesAngelsDigitsNeeded, losAngelesDodgersDigitsNeeded, miamiMarlinsDigitsNeeded, milwaukeeBrewersDigitsNeeded, minnesotaTwinsDigitsNeeded, newYorkMetsDigitsNeeded, newYorkYankeesDigitsNeeded, oaklandAthleticsDigitsNeeded, " +
+                "philadelphiaPhilliesDigitsNeeded, pittsburghPiratesDigitsNeeded, sanDiegoPadresDigitsNeeded, sanFranciscoGiantsDigitsNeeded, seattleMarinersDigitsNeeded, stLouisCardinalsDigitsNeeded, tampaBayRaysDigitsNeeded, texasRangersDigitsNeeded, " +
+                "torontoBlueJaysDigitsNeeded, washingtonNationalsDigitsNeeded) " +
+                "VALUES (@SessionID, @SessionStatus, @CurrentPot, @StartDate, @EndDate, @WinningTeam, @WinningPlayer, @arizonaDiamondbacksDigitsNeeded, @atlantaBravesDigitsNeeded, @baltimoreOriolesDigitsNeeded, " +
+                "@bostonRedSoxDigitsNeeded, @chicagoCubsDigitsNeeded, @chicagoWhiteSoxDigitsNeeded, @cincinnatiRedsDigitsNeeded, @clevelandIndiansDigitsNeeded, @coloradoRockiesDigitsNeeded, @detroitTigersDigitsNeeded, @houstonAstrosDigitsNeeded, @kansasCityRoyalsDigitsNeeded, " +
+                "@losAngelesAngelsDigitsNeeded, @losAngelesDodgersDigitsNeeded, @miamiMarlinsDigitsNeeded, @milwaukeeBrewersDigitsNeeded, @minnesotaTwinsDigitsNeeded, @newYorkMetsDigitsNeeded, @newYorkYankeesDigitsNeeded, @oaklandAthleticsDigitsNeeded, " +
+                "@philadelphiaPhilliesDigitsNeeded, @pittsburghPiratesDigitsNeeded, @sanDiegoPadresDigitsNeeded, @sanFranciscoGiantsDigitsNeeded, @seattleMarinersDigitsNeeded, @stLouisCardinalsDigitsNeeded, @tampaBayRaysDigitsNeeded, @texasRangersDigitsNeeded, " +
+                "@torontoBlueJaysDigitsNeeded, @washingtonNationalsDigitsNeeded)";
+
+            cmd.Parameters.AddWithValue("@SessionID", Session.SessionID);
+            cmd.Parameters.AddWithValue("@SessionStatus", Session.SessionStatus);
+            cmd.Parameters.AddWithValue("@CurrentPot", Session.CurrentPot);
+            cmd.Parameters.AddWithValue("@StartDate", Session.StartDate);
+            cmd.Parameters.AddWithValue("@EndDate", Session.EndDate);
+            cmd.Parameters.AddWithValue("@WinningTeam", Session.WinningTeam);
+            cmd.Parameters.AddWithValue("@WinningPlayer", Session.WinningPlayer);
+
+            cmd.Parameters.AddWithValue("@arizonaDiamondbacksDigitsNeeded", Session.arizonaDiamondbacksDigitsNeeded);
+            cmd.Parameters.AddWithValue("@atlantaBravesDigitsNeeded", Session.atlantaBravesDigitsNeeded);
+            cmd.Parameters.AddWithValue("@baltimoreOriolesDigitsNeeded", Session.baltimoreOriolesDigitsNeeded);
+            cmd.Parameters.AddWithValue("@bostonRedSoxDigitsNeeded", Session.bostonRedsoxDigitsNeeded);
+            cmd.Parameters.AddWithValue("@chicagoCubsDigitsNeeded", Session.chicagoCubsDigitsNeeded);
+            cmd.Parameters.AddWithValue("@chicagoWhiteSoxDigitsNeeded", Session.chicagoWhiteSoxDigitsNeeded);
+            cmd.Parameters.AddWithValue("@cincinnatiRedsDigitsNeeded", Session.cincinnatiRedsDigitsNeeded);
+            cmd.Parameters.AddWithValue("@clevelandIndiansDigitsNeeded", Session.clevelandIndiansDigitsNeeded);
+            cmd.Parameters.AddWithValue("@coloradoRockiesDigitsNeeded", Session.coloradoRockiesDigitsNeeded);
+            cmd.Parameters.AddWithValue("@detroitTigersDigitsNeeded", Session.detroitTigersDigitsNeeded);
+            cmd.Parameters.AddWithValue("@houstonAstrosDigitsNeeded", Session.houstonAstrosDigitsNeeded);
+            cmd.Parameters.AddWithValue("@kansasCityRoyalsDigitsNeeded", Session.kansasCityRoyalsDigitsNeeded);
+            cmd.Parameters.AddWithValue("@losAngelesAngelsDigitsNeeded", Session.losAngelesAngelsDigitsNeeded);
+            cmd.Parameters.AddWithValue("@losAngelesDodgersDigitsNeeded", Session.losAngelesDodgersDigitsNeeded);
+            cmd.Parameters.AddWithValue("@miamiMarlinsDigitsNeeded", Session.miamiMarlinsDigitsNeeded);
+            cmd.Parameters.AddWithValue("@milwaukeeBrewersDigitsNeeded", Session.milwaukeeBrewersDigitsNeeded);
+            cmd.Parameters.AddWithValue("@minnesotaTwinsDigitsNeeded", Session.minnesotaTwinsDigitsNeeded);
+            cmd.Parameters.AddWithValue("@newYorkMetsDigitsNeeded", Session.newYorkMetsDigitsNeeded);
+            cmd.Parameters.AddWithValue("@newYorkYankeesDigitsNeeded", Session.newYorkYankeesDigitsNeeded);
+            cmd.Parameters.AddWithValue("@oaklandAthleticsDigitsNeeded", Session.oaklandAthleticsDigitsNeeded);
+            cmd.Parameters.AddWithValue("@philadelphiaPhilliesDigitsNeeded", Session.philadelphiaPhilliesDigitsNeeded);
+            cmd.Parameters.AddWithValue("@pittsburghPiratesDigitsNeeded", Session.pittsburghPiratesDigitsNeeded);
+            cmd.Parameters.AddWithValue("@sanDiegoPadresDigitsNeeded", Session.sanDiegoPadresDigitsNeeded);
+            cmd.Parameters.AddWithValue("@sanFranciscoGiantsDigitsNeeded", Session.sanFranciscoGiantsDigitsNeeded);
+            cmd.Parameters.AddWithValue("@seattleMarinersDigitsNeeded", Session.seattleMarinersDigitsNeeded);
+            cmd.Parameters.AddWithValue("@stLouisCardinalsDigitsNeeded", Session.stLouisCardinalsDigitsNeeded);
+            cmd.Parameters.AddWithValue("@tampaBayRaysDigitsNeeded", Session.tampaBayRaysDigitsNeeded);
+            cmd.Parameters.AddWithValue("@texasRangersDigitsNeeded", Session.texasRangersDigitsNeeded);
+            cmd.Parameters.AddWithValue("@torontoBlueJaysDigitsNeeded", Session.torontoBlueJaysDigitsNeeded);
+            cmd.Parameters.AddWithValue("@washingtonNationalsDigitsNeeded", Session.washingtonNationalsDigitsNeeded);
+
+            if(conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
+            try
+            {
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                return false;
+            }
+        }
+
+        public static bool UpdateSessionDay(SessionDay SessionDay)
+        {
+            //SQL Connection and Command objects
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = @"UPDATE SessionDays SET SessionDayID=@SessionDayID, SessionID=@SessionID, SessionDayDate=@SessionDayDate, GamesThisSessionDate=@GamesThisSessionDate, arizonaDiamondbacksDigit=@arizonaDiamondbacksDigit, " +
+                "atlantaBravesDigit=@atlantaBravesDigit, baltimoreOriolesDigit=@baltimoreOriolesDigit, " +
+                "bostonRedSoxDigit=@bostonRedSoxDigit, chicagoCubsDigit=@chicagoCubsDigit, chicagoWhiteSoxDigit=@chicagoWhiteSoxDigit, " +
+                "cincinnatiRedsDigit=@cincinnatiRedsDigit, clevelandIndiansDigit=@clevelandIndiansDigit, " +
+                "coloradoRockiesDigit=@coloradoRockiesDigit, detroitTigersDigit=@detroitTigersDigit, houstonAstrosDigit=@houstonAstrosDigit, kansasCityRoyalsDigit=@kansasCityRoyalsDigit, " +
+                "losAngelesAngelsDigit=@losAngelesAngelsDigit, losAngelesDodgersDigit=@losAngelesDodgersDigit, miamiMarlinsDigit=@miamiMarlinsDigit, milwaukeeBrewersDigit=@milwaukeeBrewersDigit, " +
+                "minnesotaTwinsDigit=@minnesotaTwinsDigit, newYorkMetsDigit=@newYorkMetsDigit, newYorkYankeesDigit=@newYorkYankeesDigit, oaklandAthleticsDigit=@oaklandAthleticsDigit, " +
+                "philadelphiaPhilliesDigit=@philadelphiaPhilliesDigit, pittsburghPiratesDigit=@pittsburghPiratesDigit, sanDiegoPadresDigit=@sanDiegoPadresDigit, sanFranciscoGiantsDigit=@sanFranciscoGiantsDigit, " +
+                "seattleMarinersDigit=@seattleMarinersDigit, stLouisCardinalsDigit=@stLouisCardinalsDigit, tampaBayRaysDigit=@tampaBayRaysDigit, texasRangersDigit=@texasRangersDigit, " +
+                "torontoBlueJaysDigit=@torontoBlueJaysDigit, washingtonNationalsDigit=@washingtonNationalsDigit " +
+                "WHERE SessionDayID=@SessionDayID";
+
+            cmd.Parameters.AddWithValue("SessionDayID", SessionDay.SessionDayID);
+            cmd.Parameters.AddWithValue("SessionID", SessionDay.SessionID);
+            cmd.Parameters.AddWithValue("SessionDayDate", SessionDay.SessionDayDate);
+            cmd.Parameters.AddWithValue("GamesThisSessionDate", SessionDay.GamesThisSessionDay);
+
+            cmd.Parameters.AddWithValue("arizonaDiamondbacksDigit", SessionDay.arizonaDiamondbacksDigit);
+            cmd.Parameters.AddWithValue("atlantaBravesDigit", SessionDay.atlantaBravesDigit);
+            cmd.Parameters.AddWithValue("baltimoreOriolesDigit", SessionDay.baltimoreOriolesDigit);
+            cmd.Parameters.AddWithValue("bostonRedSoxDigit", SessionDay.bostonRedSoxDigit);
+            cmd.Parameters.AddWithValue("chicagoCubsDigit", SessionDay.chicagoCubsDigit);
+            cmd.Parameters.AddWithValue("chicagoWhiteSoxDigit", SessionDay.chicagoWhiteSoxDigit);
+            cmd.Parameters.AddWithValue("cincinnatiRedsDigit", SessionDay.cincinnatiRedsDigit);
+            cmd.Parameters.AddWithValue("clevelandIndiansDigit", SessionDay.clevelandIndiansDigit);
+            cmd.Parameters.AddWithValue("coloradoRockiesDigit", SessionDay.coloradoRockiesDigit);
+            cmd.Parameters.AddWithValue("detroitTigersDigit", SessionDay.detroitTigersDigit);
+            cmd.Parameters.AddWithValue("houstonAstrosDigit", SessionDay.houstonAstrosDigit);
+            cmd.Parameters.AddWithValue("kansasCityRoyalsDigit", SessionDay.kansasCityRoyalsDigit);
+            cmd.Parameters.AddWithValue("losAngelesAngelsDigit", SessionDay.losAngelesAngelsDigit);
+            cmd.Parameters.AddWithValue("losAngelesDodgersDigit", SessionDay.losAngelesDodgersDigit);
+            cmd.Parameters.AddWithValue("miamiMarlinsDigit", SessionDay.miamiMarlinsDigit);
+            cmd.Parameters.AddWithValue("milwaukeeBrewersDigit", SessionDay.milwaukeeBrewersDigit);
+            cmd.Parameters.AddWithValue("minnesotaTwinsDigit", SessionDay.minnesotaTwinsDigit);
+            cmd.Parameters.AddWithValue("newYorkMetsDigit", SessionDay.newYorkMetsDigit);
+            cmd.Parameters.AddWithValue("newYorkYankeesDigit", SessionDay.newYorkYankeesDigit);
+            cmd.Parameters.AddWithValue("oaklandAthleticsDigit", SessionDay.oaklandAthleticsDigit);
+            cmd.Parameters.AddWithValue("philadelphiaPhilliesDigit", SessionDay.philadelphiaPhilliesDigit);
+            cmd.Parameters.AddWithValue("pittsburghPiratesDigit", SessionDay.pittsburghPiratesDigit);
+            cmd.Parameters.AddWithValue("sanDiegoPadresDigit", SessionDay.sanDiegoPadresDigit);
+            cmd.Parameters.AddWithValue("sanFranciscoGiantsDigit", SessionDay.sanFranciscoGiantsDigit);
+            cmd.Parameters.AddWithValue("seattleMarinersDigit", SessionDay.seattleMarinersDigit);
+            cmd.Parameters.AddWithValue("stLouisCardinalsDigit", SessionDay.stLouisCardinalsDigit);
+            cmd.Parameters.AddWithValue("tampaBayRaysDigit", SessionDay.tampaBayRaysDigit);
+            cmd.Parameters.AddWithValue("texasRangersDigit", SessionDay.texasRangersDigit);
+            cmd.Parameters.AddWithValue("torontoBlueJaysDigit", SessionDay.torontoBlueJaysDigit);
+            cmd.Parameters.AddWithValue("washingtonNationalsDigit", SessionDay.washingtonNationalsDigit);
+
+            if(conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+            try
+            {
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                return true;
+            }
+            catch
+            {
+                conn.Close();
+                return false;
+            }
+
+        }
+
+        public static bool UpdateSession(Session Session, SessionDay SessionDay)
+        {
+            //SQL Connection and Command objects
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = @"UPDATE Sessions SET SessionID=@SessionID, SessionStatus=@SessionStatus, CurrentPot=@CurrentPot, StartDate=@StartDate, EndDate=@EndDate, " +
+                "WinningTeam=@WinningTeam, WinningPlayer=@WinningPlayer, arizonaDiamondbacksDigitsNeeded=@arizonaDiamondbacksDigitsNeeded, atlantaBravesDigitsNeeded=@atlantaBravesDigitsNeeded, baltimoreOriolesDigitsNeeded=@baltimoreOriolesDigitsNeeded, " +
+                "bostonRedSoxDigitsNeeded=@bostonRedSoxDigitsNeeded, chicagoCubsDigitsNeeded=@chicagoCubsDigitsNeeded, chicagoWhiteSoxDigitsNeeded=@chicagoWhiteSoxDigitsNeeded, cincinnatiRedsDigitsNeeded=@cincinnatiRedsDigitsNeeded, clevelandIndiansDigitsNeeded=@clevelandIndiansDigitsNeeded, " +
+                "coloradoRockiesDigitsNeeded=@coloradoRockiesDigitsNeeded, detroitTigersDigitsNeeded=@detroitTigersDigitsNeeded, houstonAstrosDigitsNeeded=@houstonAstrosDigitsNeeded, kansasCityRoyalsDigitsNeeded=@kansasCityRoyalsDigitsNeeded, " +
+                "losAngelesAngelsDigitsNeeded=@losAngelesAngelsDigitsNeeded, losAngelesDodgersDigitsNeeded=@losAngelesDodgersDigitsNeeded, miamiMarlinsDigitsNeeded=@miamiMarlinsDigitsNeeded, milwaukeeBrewersDigitsNeeded=@milwaukeeBrewersDigitsNeeded, " +
+                "minnesotaTwinsDigitsNeeded=@minnesotaTwinsDigitsNeeded, newYorkMetsDigitsNeeded=@newYorkMetsDigitsNeeded, newYorkYankeesDigitsNeeded=@newYorkYankeesDigitsNeeded, oaklandAthleticsDigitsNeeded=@oaklandAthleticsDigitsNeeded, " +
+                "philadelphiaPhilliesDigitsNeeded=@philadelphiaPhilliesDigitsNeeded, pittsburghPiratesDigitsNeeded=@pittsburghPiratesDigitsNeeded, sanDiegoPadresDigitsNeeded=@sanDiegoPadresDigitsNeeded, sanFranciscoGiantsDigitsNeeded=@sanFranciscoGiantsDigitsNeeded, " +
+                "seattleMarinersDigitsNeeded=@seattleMarinersDigitsNeeded, stLouisCardinalsDigitsNeeded=@stLouisCardinalsDigitsNeeded, tampaBayRaysDigitsNeeded=@tampaBayRaysDigitsNeeded, texasRangersDigitsNeeded=@texasRangersDigitsNeeded, " +
+                "torontoBlueJaysDigitsNeeded=@torontoBlueJaysDigitsNeeded, washingtonNationalsDigitsNeeded=@washingtonNationalsDigitsNeeded " +
+                "WHERE SessionID=@SessionID";
+
+            cmd.Parameters.AddWithValue("SessionID", Session.SessionID);
+            cmd.Parameters.AddWithValue("SessionStatus", "In progress");
+            cmd.Parameters.AddWithValue("CurrentPot", 25);
+            cmd.Parameters.AddWithValue("StartDate", Session.StartDate);
+            cmd.Parameters.AddWithValue("EndDate", Session.EndDate);
+            cmd.Parameters.AddWithValue("WinningTeam", "YoMomma"); //How to calc winning team? Seperate method most likely
+            cmd.Parameters.AddWithValue("WinningPlayer", "EatAburger"); //Calc this with serperate method
+
+            cmd.Parameters.AddWithValue("arizonaDiamondbacksDigitsNeeded", GetDigitsNeeded(Session, "arizonaDiamondbacks"));
+            cmd.Parameters.AddWithValue("atlantaBravesDigitsNeeded", GetDigitsNeeded(Session, "atlantaBraves"));
+            cmd.Parameters.AddWithValue("baltimoreOriolesDigitsNeeded", GetDigitsNeeded(Session, "baltimoreOrioles"));
+            cmd.Parameters.AddWithValue("bostonRedSoxDigitsNeeded", GetDigitsNeeded(Session, "bostonRedSox"));
+            cmd.Parameters.AddWithValue("chicagoCubsDigitsNeeded", GetDigitsNeeded(Session, "chicagoCubs"));
+            cmd.Parameters.AddWithValue("chicagoWhiteSoxDigitsNeeded", GetDigitsNeeded(Session, "chicagoWhiteSox"));
+            cmd.Parameters.AddWithValue("cincinnatiRedsDigitsNeeded", GetDigitsNeeded(Session, "cincinnatiReds"));
+            cmd.Parameters.AddWithValue("clevelandIndiansDigitsNeeded", GetDigitsNeeded(Session, "clevelandIndians"));
+            cmd.Parameters.AddWithValue("coloradoRockiesDigitsNeeded", GetDigitsNeeded(Session, "coloradoRockies"));
+            cmd.Parameters.AddWithValue("detroitTigersDigitsNeeded", GetDigitsNeeded(Session, "detroitTigers"));
+            cmd.Parameters.AddWithValue("houstonAstrosDigitsNeeded", GetDigitsNeeded(Session, "houstonAstros"));
+            cmd.Parameters.AddWithValue("kansasCityRoyalsDigitsNeeded", GetDigitsNeeded(Session, "kansasCityRoyals"));
+            cmd.Parameters.AddWithValue("losAngelesAngelsDigitsNeeded", GetDigitsNeeded(Session, "losAngelesAngels"));
+            cmd.Parameters.AddWithValue("losAngelesDodgersDigitsNeeded", GetDigitsNeeded(Session, "losAngelesDodgers"));
+            cmd.Parameters.AddWithValue("miamiMarlinsDigitsNeeded", GetDigitsNeeded(Session, "miamiMarlins"));
+            cmd.Parameters.AddWithValue("milwaukeeBrewersDigitsNeeded", GetDigitsNeeded(Session, "milwaukeeBrewers"));
+            cmd.Parameters.AddWithValue("minnesotaTwinsDigitsNeeded", GetDigitsNeeded(Session, "minnesotaTwins"));
+            cmd.Parameters.AddWithValue("newYorkMetsDigitsNeeded", GetDigitsNeeded(Session, "newYorkMets"));
+            cmd.Parameters.AddWithValue("newYorkYankeesDigitsNeeded", GetDigitsNeeded(Session, "newYorkYankees"));
+            cmd.Parameters.AddWithValue("oaklandAthleticsDigitsNeeded", GetDigitsNeeded(Session, "oaklandAthletics"));
+            cmd.Parameters.AddWithValue("philadelphiaPhilliesDigitsNeeded", GetDigitsNeeded(Session, "philadelphiaPhillies"));
+            cmd.Parameters.AddWithValue("pittsburghPiratesDigitsNeeded", GetDigitsNeeded(Session, "pittsburghPirates"));
+            cmd.Parameters.AddWithValue("sanDiegoPadresDigitsNeeded", GetDigitsNeeded(Session, "sanDiegoPadres"));
+            cmd.Parameters.AddWithValue("sanFranciscoGiantsDigitsNeeded", GetDigitsNeeded(Session, "sanFranciscoGiants"));
+            cmd.Parameters.AddWithValue("seattleMarinersDigitsNeeded", GetDigitsNeeded(Session, "seattleMariners"));
+            cmd.Parameters.AddWithValue("stLouisCardinalsDigitsNeeded", GetDigitsNeeded(Session, "stLouisCardinals"));
+            cmd.Parameters.AddWithValue("tampaBayRaysDigitsNeeded", GetDigitsNeeded(Session, "tampaBayRays"));
+            cmd.Parameters.AddWithValue("texasRangersDigitsNeeded", GetDigitsNeeded(Session, "texasRangers"));
+            cmd.Parameters.AddWithValue("torontoBlueJaysDigitsNeeded", GetDigitsNeeded(Session, "torontoBlueJays"));
+            cmd.Parameters.AddWithValue("washingtonNationalsDigitsNeeded", GetDigitsNeeded(Session, "washingtonNationals"));
+
+            if(conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
+            try
+            {
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                conn.Close();
+                return false;
+            }
+        }
+
+        public static bool InsertSessionDay(SessionDay SessionDay, Session Session)
+        {
+            //SQL Connection and Command objects
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = @"Insert INTO SessionDays (SessionDayID, SessionID, SessionDayDate, GamesThisSessionDate, arizonaDiamondbacksDigit, atlantaBravesDigit, baltimoreOriolesDigit, " +
+                "bostonRedSoxDigit, chicagoCubsDigit, chicagoWhiteSoxDigit, cincinnatiRedsDigit, clevelandIndiansDigit, coloradoRockiesDigit, detroitTigersDigit, houstonAstrosDigit, kansasCityRoyalsDigit, " +
+                "losAngelesAngelsDigit, losAngelesDodgersDigit, miamiMarlinsDigit, milwaukeeBrewersDigit, minnesotaTwinsDigit, newYorkMetsDigit, newYorkYankeesDigit, oaklandAthleticsDigit, " +
+                "philadelphiaPhilliesDigit, pittsburghPiratesDigit, sanDiegoPadresDigit, sanFranciscoGiantsDigit, seattleMarinersDigit, stLouisCardinalsDigit, tampaBayRaysDigit, texasRangersDigit, " +
+                "torontoBlueJaysDigit, washingtonNationalsDigit) " +
+                "VALUES (@SessionDayID, @SessionID, @SessionDayDate, @GamesThisSessionDate, @arizonaDiamondbacksDigit, @atlantaBravesDigit, @baltimoreOriolesDigit, " +
+                "@bostonRedSoxDigit, @chicagoCubsDigit, @chicagoWhiteSoxDigit, @cincinnatiRedsDigit, @clevelandIndiansDigit, @coloradoRockiesDigit, @detroitTigersDigit, @houstonAstrosDigit, @kansasCityRoyalsDigit, " +
+                "@losAngelesAngelsDigit, @losAngelesDodgersDigit, @miamiMarlinsDigit, @milwaukeeBrewersDigit, @minnesotaTwinsDigit, @newYorkMetsDigit, @newYorkYankeesDigit, @oaklandAthleticsDigit, " +
+                "@philadelphiaPhilliesDigit, @pittsburghPiratesDigit, @sanDiegoPadresDigit, @sanFranciscoGiantsDigit, @seattleMarinersDigit, @stLouisCardinalsDigit, @tampaBayRaysDigit, @texasRangersDigit, " +
+                "@torontoBlueJaysDigit, @washingtonNationalsDigit)";
+
+            cmd.Parameters.AddWithValue("SessionDayID", SessionDay.SessionDayID);
+            cmd.Parameters.AddWithValue("SessionID", SessionDay.SessionID);
+            cmd.Parameters.AddWithValue("SessionDayDate", SessionDay.SessionDayDate);
+            cmd.Parameters.AddWithValue("GamesThisSessionDate", SessionDay.GamesThisSessionDay);
+
+            cmd.Parameters.AddWithValue("arizonaDiamondbacksDigit", SessionDay.arizonaDiamondbacksDigit);
+            cmd.Parameters.AddWithValue("atlantaBravesDigit", SessionDay.atlantaBravesDigit);
+            cmd.Parameters.AddWithValue("baltimoreOriolesDigit", SessionDay.baltimoreOriolesDigit);
+            cmd.Parameters.AddWithValue("bostonRedSoxDigit", SessionDay.bostonRedSoxDigit);
+            cmd.Parameters.AddWithValue("chicagoCubsDigit", SessionDay.chicagoCubsDigit);
+            cmd.Parameters.AddWithValue("chicagoWhiteSoxDigit", SessionDay.chicagoWhiteSoxDigit);
+            cmd.Parameters.AddWithValue("cincinnatiRedsDigit", SessionDay.cincinnatiRedsDigit);
+            cmd.Parameters.AddWithValue("clevelandIndiansDigit", SessionDay.clevelandIndiansDigit);
+            cmd.Parameters.AddWithValue("coloradoRockiesDigit", SessionDay.coloradoRockiesDigit);
+            cmd.Parameters.AddWithValue("detroitTigersDigit", SessionDay.detroitTigersDigit);
+            cmd.Parameters.AddWithValue("houstonAstrosDigit", SessionDay.houstonAstrosDigit);
+            cmd.Parameters.AddWithValue("kansasCityRoyalsDigit", SessionDay.kansasCityRoyalsDigit);
+            cmd.Parameters.AddWithValue("losAngelesAngelsDigit", SessionDay.losAngelesAngelsDigit);
+            cmd.Parameters.AddWithValue("losAngelesDodgersDigit", SessionDay.losAngelesDodgersDigit);
+            cmd.Parameters.AddWithValue("miamiMarlinsDigit", SessionDay.miamiMarlinsDigit);
+            cmd.Parameters.AddWithValue("milwaukeeBrewersDigit", SessionDay.milwaukeeBrewersDigit);
+            cmd.Parameters.AddWithValue("minnesotaTwinsDigit", SessionDay.minnesotaTwinsDigit);
+            cmd.Parameters.AddWithValue("newYorkMetsDigit", SessionDay.newYorkMetsDigit);
+            cmd.Parameters.AddWithValue("newYorkYankeesDigit", SessionDay.newYorkYankeesDigit);
+            cmd.Parameters.AddWithValue("oaklandAthleticsDigit", SessionDay.oaklandAthleticsDigit);
+            cmd.Parameters.AddWithValue("philadelphiaPhilliesDigit", SessionDay.philadelphiaPhilliesDigit);
+            cmd.Parameters.AddWithValue("pittsburghPiratesDigit", SessionDay.pittsburghPiratesDigit);
+            cmd.Parameters.AddWithValue("sanDiegoPadresDigit", SessionDay.sanDiegoPadresDigit);
+            cmd.Parameters.AddWithValue("sanFranciscoGiantsDigit", SessionDay.sanFranciscoGiantsDigit);
+            cmd.Parameters.AddWithValue("seattleMarinersDigit", SessionDay.seattleMarinersDigit);
+            cmd.Parameters.AddWithValue("stLouisCardinalsDigit", SessionDay.stLouisCardinalsDigit);
+            cmd.Parameters.AddWithValue("tampaBayRaysDigit", SessionDay.tampaBayRaysDigit);
+            cmd.Parameters.AddWithValue("texasRangersDigit", SessionDay.texasRangersDigit);
+            cmd.Parameters.AddWithValue("torontoBlueJaysDigit", SessionDay.torontoBlueJaysDigit);
+            cmd.Parameters.AddWithValue("washingtonNationalsDigit", SessionDay.washingtonNationalsDigit);
+
+            if(conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
+            try
+            {
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                conn.Close();
+                return false;
+            }
+
         }
 
         public static List<Session> GetSessions()
@@ -332,7 +512,7 @@ namespace GetScores
             conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "Select * Sessions";
+            cmd.CommandText = "Select * From Sessions order by StartDate";
 
             //Open the connection if need be
             if (conn.State != System.Data.ConnectionState.Open)
@@ -357,54 +537,57 @@ namespace GetScores
                     s.WinningTeam = reader["WinningTeam"].ToString();
                     //s.WinningPlayer look this up from Teams table or something?
 
-                    s.arizonaDiamondbacksDigitsNeeded = ParseScores(reader["arizonaDiamondbacksDigitsNeeded"].ToString());
-                    s.atlantaBravesDigitsNeeded = ParseScores(reader["atlantaBravesDigitsNeeded"].ToString());
-                    s.baltimoreOriolesDigitsNeeded = ParseScores(reader["baltimoreOriolesDigitsNeeded"].ToString());
-                    s.bostonRedsoxDigitsNeeded = ParseScores(reader["bostonRedsoxDigitsNeeded"].ToString());
-                    s.chicagoCubsDigitsNeeded = ParseScores(reader["chicagoCubsDigitsNeeded"].ToString());
-                    s.chicagoWhiteSoxDigitsNeeded = ParseScores(reader["chicagoWhiteSoxDigitsNeeded"].ToString());
-                    s.cincinnatiRedsDigitsNeeded = ParseScores(reader["cincinnatiRedsDigitsNeeded"].ToString());
-                    s.clevelandIndiansDigitsNeeded = ParseScores(reader["clevelandIndiansDigitsNeeded"].ToString());
-                    s.coloradoRockiesDigitsNeeded = ParseScores(reader["coloradoRockiesDigitsNeeded"].ToString());
-                    s.detroitTigersDigitsNeeded = ParseScores(reader["detroitTigersDigitsNeeded"].ToString());
-                    s.houstonAstrosDigitsNeeded = ParseScores(reader["houstonAstrosDigitsNeeded"].ToString());
-                    s.kansasCityRoyalsDigitsNeeded = ParseScores(reader["kansasCityRoyalsDigitsNeeded"].ToString());
-                    s.losAngelesAngelsDigitsNeeded = ParseScores(reader["losAngelesAngelsDigitsNeeded"].ToString());
-                    s.losAngelesDodgersDigitsNeeded = ParseScores(reader["losAngelesDodgersDigitsNeeded"].ToString());
-                    s.miamiMarlinsDigitsNeeded = ParseScores(reader["miamiMarlinsDigitsNeeded"].ToString());
-                    s.milwaukeeBrewersDigitsNeeded = ParseScores(reader["milwaukeeBrewersDigitsNeeded"].ToString());
-                    s.minnesotaTwinsDigitsNeeded = ParseScores(reader["minnesotaTwinsDigitsNeeded"].ToString());
-                    s.newYorkMetsDigitsNeeded = ParseScores(reader["newYorkMetsDigitsNeeded"].ToString());
-                    s.newYorkYankeesDigitsNeeded = ParseScores(reader["newYorkYankeesDigitsNeeded"].ToString());
-                    s.oaklandAthleticsDigitsNeeded = ParseScores(reader["oaklandAthleticsDigitsNeeded"].ToString());
-                    s.philadelphiaPhilliesDigitsNeeded = ParseScores(reader["philadelphiaPhilliesDigitsNeeded"].ToString());
-                    s.pittsburghPiratesDigitsNeeded = ParseScores(reader["pittsburghPiratesDigitsNeeded"].ToString());
-                    s.sanDiegoPadresDigitsNeeded = ParseScores(reader["sanDiegoPadresDigitsNeeded"].ToString());
-                    s.sanFranciscoGiantsDigitsNeeded = ParseScores(reader["sanFranciscoGiantsDigitsNeeded"].ToString());
-                    s.seattleMarinersDigitsNeeded = ParseScores(reader["seattleMarinersDigitsNeeded"].ToString());
-                    s.stLouisCardinalsDigitsNeeded = ParseScores(reader["stLouisCardinalsDigitsNeeded"].ToString());
-                    s.tampaBayRaysDigitsNeeded = ParseScores(reader["tampaBayRaysDigitsNeeded"].ToString());
-                    s.texasRangersDigitsNeeded = ParseScores(reader["texasRangersDigitsNeeded"].ToString());
-                    s.torontoBlueJaysDigitsNeeded = ParseScores(reader["torontoBlueJaysDigitsNeeded"].ToString());
-                    s.washingtonNationalsDigitsNeeded = ParseScores(reader["washingtonNationalsDigitsNeeded"].ToString());
+                    s.arizonaDiamondbacksDigitsNeeded = (reader["arizonaDiamondbacksDigitsNeeded"].ToString());
+                    s.atlantaBravesDigitsNeeded = (reader["atlantaBravesDigitsNeeded"].ToString());
+                    s.baltimoreOriolesDigitsNeeded = (reader["baltimoreOriolesDigitsNeeded"].ToString());
+                    s.bostonRedsoxDigitsNeeded = (reader["bostonRedsoxDigitsNeeded"].ToString());
+                    s.chicagoCubsDigitsNeeded = (reader["chicagoCubsDigitsNeeded"].ToString());
+                    s.chicagoWhiteSoxDigitsNeeded = (reader["chicagoWhiteSoxDigitsNeeded"].ToString());
+                    s.cincinnatiRedsDigitsNeeded = (reader["cincinnatiRedsDigitsNeeded"].ToString());
+                    s.clevelandIndiansDigitsNeeded = (reader["clevelandIndiansDigitsNeeded"].ToString());
+                    s.coloradoRockiesDigitsNeeded = (reader["coloradoRockiesDigitsNeeded"].ToString());
+                    s.detroitTigersDigitsNeeded = (reader["detroitTigersDigitsNeeded"].ToString());
+                    s.houstonAstrosDigitsNeeded = (reader["houstonAstrosDigitsNeeded"].ToString());
+                    s.kansasCityRoyalsDigitsNeeded = (reader["kansasCityRoyalsDigitsNeeded"].ToString());
+                    s.losAngelesAngelsDigitsNeeded = (reader["losAngelesAngelsDigitsNeeded"].ToString());
+                    s.losAngelesDodgersDigitsNeeded = (reader["losAngelesDodgersDigitsNeeded"].ToString());
+                    s.miamiMarlinsDigitsNeeded = (reader["miamiMarlinsDigitsNeeded"].ToString());
+                    s.milwaukeeBrewersDigitsNeeded = (reader["milwaukeeBrewersDigitsNeeded"].ToString());
+                    s.minnesotaTwinsDigitsNeeded = (reader["minnesotaTwinsDigitsNeeded"].ToString());
+                    s.newYorkMetsDigitsNeeded = (reader["newYorkMetsDigitsNeeded"].ToString());
+                    s.newYorkYankeesDigitsNeeded = (reader["newYorkYankeesDigitsNeeded"].ToString());
+                    s.oaklandAthleticsDigitsNeeded = (reader["oaklandAthleticsDigitsNeeded"].ToString());
+                    s.philadelphiaPhilliesDigitsNeeded = (reader["philadelphiaPhilliesDigitsNeeded"].ToString());
+                    s.pittsburghPiratesDigitsNeeded = (reader["pittsburghPiratesDigitsNeeded"].ToString());
+                    s.sanDiegoPadresDigitsNeeded = (reader["sanDiegoPadresDigitsNeeded"].ToString());
+                    s.sanFranciscoGiantsDigitsNeeded = (reader["sanFranciscoGiantsDigitsNeeded"].ToString());
+                    s.seattleMarinersDigitsNeeded = (reader["seattleMarinersDigitsNeeded"].ToString());
+                    s.stLouisCardinalsDigitsNeeded = (reader["stLouisCardinalsDigitsNeeded"].ToString());
+                    s.tampaBayRaysDigitsNeeded = (reader["tampaBayRaysDigitsNeeded"].ToString());
+                    s.texasRangersDigitsNeeded = (reader["texasRangersDigitsNeeded"].ToString());
+                    s.torontoBlueJaysDigitsNeeded = (reader["torontoBlueJaysDigitsNeeded"].ToString());
+                    s.washingtonNationalsDigitsNeeded = (reader["washingtonNationalsDigitsNeeded"].ToString());
 
                     sessions.Add(s);
                 }
             }
+
+            conn.Close();
             return sessions;
         }
 
         public static List<Game> GetGames(DateTime startingDate)
         {
             List<Game> games = new List<Game>();
+            string date = startingDate.ToString("yyyy-MM-dd");
 
             //SQL Connection and Command objects
             SqlConnection conn = new SqlConnection();
             conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = @"select * from games where GameDate like '%@date%'";
-            cmd.Parameters.AddWithValue("date", startingDate);
+            cmd.CommandText = @"Select * from Games Where GameDate Like @date";
+            cmd.Parameters.AddWithValue("date", "%" + date + "%");
 
             //Open the connection if need be
             if (conn.State != System.Data.ConnectionState.Open)
@@ -422,10 +605,10 @@ namespace GetScores
                     Game g = new Game();
 
                     g.GameID = reader["GameID"].ToString();
-                    g.HomeScore = Convert.ToInt16(reader["HomeScore"]);
-                    g.HomeLastDigit = Convert.ToInt16(reader["HomeLastDigit"]);
-                    g.AwayScore = Convert.ToInt16(reader["AwayScore"]);
-                    g.AwayLastDigit = Convert.ToInt16(reader["AwayLastDigit"]);
+                    g.HomeScore = reader["HomeTeamScore"].ToString();
+                    g.HomeLastDigit = reader["HomeTeamLastDigit"].ToString();
+                    g.AwayScore = reader["AwayTeamScore"].ToString();
+                    g.AwayLastDigit = reader["AwayTeamLastDigit"].ToString();
                     g.HomeTeam = reader["HomeTeam"].ToString();
                     g.AwayTeam = reader["AwayTeam"].ToString();
                     g.GameDate = DateTime.Parse(reader["GameDate"].ToString());
@@ -434,6 +617,7 @@ namespace GetScores
                 }
             }
 
+            conn.Close();
             return games;
         }
 
@@ -464,10 +648,10 @@ namespace GetScores
                     Game g = new Game();
 
                     g.GameID = reader["GameID"].ToString();
-                    g.HomeScore = Convert.ToInt16(reader["HomeScore"]);
-                    g.HomeLastDigit = Convert.ToInt16(reader["HomeLastDigit"]);
-                    g.AwayScore = Convert.ToInt16(reader["AwayScore"]);
-                    g.AwayLastDigit = Convert.ToInt16(reader["AwayLastDigit"]);
+                    g.HomeScore = reader["HomeScore"].ToString();
+                    g.HomeLastDigit = reader["HomeLastDigit"].ToString();
+                    g.AwayScore = reader["AwayScore"].ToString();
+                    g.AwayLastDigit = reader["AwayLastDigit"].ToString();
                     g.HomeTeam = reader["HomeTeam"].ToString();
                     g.AwayTeam = reader["AwayTeam"].ToString();
                     g.GameDate = DateTime.Parse(reader["GameDate"].ToString());
@@ -476,6 +660,7 @@ namespace GetScores
                 }
             }
 
+            conn.Close();
             return games;
         }
 
@@ -532,12 +717,14 @@ namespace GetScores
 
                 sro.Success = true;
                 sro.ErrorMessage = null;
+                conn.Close();
                 return sro;
             }
             catch (Exception ex)
             {
                 sro.Success = false;
                 sro.ErrorMessage = ex.Message;
+                conn.Close();
                 return sro;
             }
         }
@@ -572,6 +759,7 @@ namespace GetScores
                     gs.Status = reader["GameStatus"].ToString();
                 }
 
+                conn.Close();
                 return gs;
             }
             else
@@ -579,6 +767,7 @@ namespace GetScores
                 gs.IsGameInDb = false;
                 gs.Status = null;
 
+                conn.Close();
                 return gs;
             }
         }
@@ -636,12 +825,14 @@ namespace GetScores
 
                 sro.Success = true;
                 sro.ErrorMessage = null;
+                conn.Close();
                 return sro;
             }
             catch (Exception ex)
             {
                 sro.Success = false;
                 sro.ErrorMessage = ex.Message;
+                conn.Close();
                 return sro;
             }
         }
@@ -658,7 +849,131 @@ namespace GetScores
 
             return digits;
         }
+
+        internal static string GetDigitsNeeded(Session session, string Team)
+        {
+            //Get all the sessionDays for that session for that team
+            //List<SessionDay> sdList = DataAccess.GetSessionDays(session.SessionID, Team);
+            List<int> totalDigits = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            List<int> digits = new List<int>();
+
+            //SQL Connection and Command objects
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "Select " + Team + "Digit From SessionDays where SessionID=@SessionID";
+            cmd.Parameters.AddWithValue("SessionID", session.SessionID);
+
+            //Open the connection if need be
+            if (conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    string teamCol = Team + "Digit";
+
+                    string d = reader[teamCol].ToString();
+                    if (d != "-")
+                    {
+                        int n = Convert.ToInt16(reader[teamCol].ToString());
+                        digits.Add(n);
+                    }
+                    
+                }
+            }
+            conn.Close();
+
+            //Go through the digits we got from the database and SUBTRACT them from the totalDigits. This will
+            //leave us with the digits that we need
+            foreach(int i in digits)
+            {
+                totalDigits.Remove(i);
+            }
+
+            string digitsToReturn = string.Join(",", totalDigits);
+
+            return digitsToReturn;
+        }
+
+        private static List<SessionDay> GetSessionDays(Guid sessionID, string team)
+        {
+            List<SessionDay> sessionDays = new List<SessionDay>();
+
+            //SQL Connection and Command objects
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = ConfigurationManager.ConnectionStrings["EckDB"].ConnectionString;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "Select " + team + "Digit From SessionDays where SessionID=@SessionID";
+            cmd.Parameters.AddWithValue("SessionID", sessionID);
+
+            //Open the connection if need be
+            if (conn.State != System.Data.ConnectionState.Open)
+            {
+                conn.Open();
+            }
+
+            //Check if the event is in the database
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    SessionDay sd = new SessionDay();
+
+                    sd.SessionDayID = (Guid)reader["SessionStatus"];
+                    sd.SessionID = (Guid)reader["SessionID"];
+                    sd.SessionDayDate = (DateTime)reader["SessionDayDate"];
+                    //sd.GamesThisSession figure this out here or in the calling code?
+
+                    sd.arizonaDiamondbacksDigit = reader["arizonaDiamondbacksDigit"].ToString();
+                    sd.atlantaBravesDigit = reader["atlantaBravesDigit"].ToString();
+                    sd.baltimoreOriolesDigit = reader["baltimoreOriolesDigit"].ToString();
+                    sd.bostonRedSoxDigit = reader["bostonRedSoxDigit"].ToString();
+                    sd.chicagoCubsDigit = reader["chicagoCubsDigit"].ToString();
+                    sd.chicagoWhiteSoxDigit = reader["chicagoWhiteSoxDigit"].ToString();
+                    sd.cincinnatiRedsDigit = reader["cincinnatiRedsDigit"].ToString();
+                    sd.clevelandIndiansDigit = reader["clevelandIndiansDigit"].ToString();
+                    sd.coloradoRockiesDigit = reader["coloradoRockiesDigit"].ToString();
+                    sd.detroitTigersDigit = reader["detroitTigersDigit"].ToString();
+                    sd.houstonAstrosDigit = reader["houstonAstrosDigit"].ToString();
+                    sd.kansasCityRoyalsDigit = reader["kansasCityRoyalsDigit"].ToString();
+                    sd.losAngelesAngelsDigit = reader["losAngelesAngelsDigit"].ToString();
+                    sd.losAngelesDodgersDigit = reader["losAngelesDodgersDigit"].ToString();
+                    sd.miamiMarlinsDigit = reader["miamiMarlinsDigit"].ToString();
+                    sd.milwaukeeBrewersDigit = reader["milwaukeeBrewersDigit"].ToString();
+                    sd.minnesotaTwinsDigit = reader["minnesotaTwinsDigit"].ToString();
+                    sd.newYorkMetsDigit = reader["newYorkMetsDigit"].ToString();
+                    sd.newYorkYankeesDigit = reader["newYorkYankeesDigit"].ToString();
+                    sd.oaklandAthleticsDigit = reader["oaklandAthleticsDigit"].ToString();
+                    sd.philadelphiaPhilliesDigit = reader["philadelphiaPhilliesDigit"].ToString();
+                    sd.pittsburghPiratesDigit = reader["pittsburghPiratesDigit"].ToString();
+                    sd.sanDiegoPadresDigit = reader["sanDiegoPadresDigit"].ToString();
+                    sd.sanFranciscoGiantsDigit = reader["sanFranciscoGiantsDigit"].ToString();
+                    sd.seattleMarinersDigit = reader["seattleMarinersDigit"].ToString();
+                    sd.stLouisCardinalsDigit = reader["stLouisCardinalsDigit"].ToString();
+                    sd.tampaBayRaysDigit = reader["tampaBayRaysDigit"].ToString();
+                    sd.texasRangersDigit = reader["texasRangersDigit"].ToString();
+                    sd.torontoBlueJaysDigit = reader["torontoBlueJaysDigit"].ToString();
+                    sd.washingtonNationalsDigit = reader["washingtonNationalsDigit"].ToString();
+
+                    sessionDays.Add(sd);
+                }
+            }
+
+            conn.Close();
+            return sessionDays;
+        }
     }
+
     public class SqlReturnObject
     {
         public bool Success { get; set; }
@@ -667,51 +982,262 @@ namespace GetScores
     public class Game
     {
         public string GameID { get; set; }
-        public int HomeScore { get; set; }
-        public int HomeLastDigit { get; set; }
-        public int AwayScore { get; set; }
-        public int AwayLastDigit { get; set; }
+        public string HomeScore { get; set; }
+        public string HomeLastDigit { get; set; }
+        public string AwayScore { get; set; }
+        public string AwayLastDigit { get; set; }
         public string HomeTeam { get; set; }
         public string AwayTeam { get; set; }
         public DateTime GameDate { get; set; }
     }
     public class SessionDay
     {
+        private List<Game> games;
+
+        public SessionDay(List<Game> games, Session Session)
+        {
+            this.games = games;
+
+            this.SessionDayID = Guid.NewGuid();
+            this.SessionID = Session.SessionID;
+            this.SessionDayDate = games[0].GameDate; //Assumes Games has Game objects in it.
+            this.GamesThisSessionDay = games.Count;
+
+            foreach (Game g in games)
+            {
+                //Build the parameters depending on what scores were had that day for whatever teams
+                #region GnarlySwitch
+                switch (g.HomeTeam)
+                {
+                    case "Arizona Diamondbacks":
+                        this.arizonaDiamondbacksDigit = g.HomeLastDigit;
+                        break;
+                    case "Atlanta Braves":
+                        this.atlantaBravesDigit = g.HomeLastDigit;
+                        break;
+                    case "Baltimore Orioles":
+                        this.baltimoreOriolesDigit = g.HomeLastDigit;
+                        break;
+                    case "Boston Red Sox":
+                        this.bostonRedSoxDigit = g.HomeLastDigit;
+                        break;
+                    case "Chicago Cubs":
+                        this.chicagoCubsDigit = g.HomeLastDigit;
+                        break;
+                    case "Chicago White Sox":
+                        this.chicagoWhiteSoxDigit = g.HomeLastDigit;
+                        break;
+                    case "Cincinnati Reds":
+                        this.cincinnatiRedsDigit = g.HomeLastDigit;
+                        break;
+                    case "Cleveland Indians":
+                        this.clevelandIndiansDigit = g.HomeLastDigit;
+                        break;
+                    case "Colorado Rockies":
+                        this.coloradoRockiesDigit = g.HomeLastDigit;
+                        break;
+                    case "Detroit Tigers":
+                        this.detroitTigersDigit = g.HomeLastDigit;
+                        break;
+                    case "Houston Astros":
+                        this.houstonAstrosDigit = g.HomeLastDigit;
+                        break;
+                    case "Kansas City Royals":
+                        this.kansasCityRoyalsDigit = g.HomeLastDigit;
+                        break;
+                    case "Los Angeles Angels":
+                        this.losAngelesAngelsDigit = g.HomeLastDigit;
+                        break;
+                    case "Los Angeles Dodgers":
+                        this.losAngelesDodgersDigit = g.HomeLastDigit;
+                        break;
+                    case "Miami Marlins":
+                        this.miamiMarlinsDigit = g.HomeLastDigit;
+                        break;
+                    case "Milwaukee Brewers":
+                        this.milwaukeeBrewersDigit = g.HomeLastDigit;
+                        break;
+                    case "Minnesota Twins":
+                        this.minnesotaTwinsDigit = g.HomeLastDigit;
+                        break;
+                    case "New York Mets":
+                        this.newYorkMetsDigit = g.HomeLastDigit;
+                        break;
+                    case "New York Yankees":
+                        this.newYorkYankeesDigit = g.HomeLastDigit;
+                        break;
+                    case "Oakland Athletics":
+                        this.oaklandAthleticsDigit = g.HomeLastDigit;
+                        break;
+                    case "Philadelphia Phillies":
+                        this.philadelphiaPhilliesDigit = g.HomeLastDigit;
+                        break;
+                    case "Pittsburgh Pirates":
+                        this.pittsburghPiratesDigit = g.HomeLastDigit;
+                        break;
+                    case "San Diego Padres":
+                        this.sanDiegoPadresDigit = g.HomeLastDigit;
+                        break;
+                    case "San Francisco Giants":
+                        this.sanFranciscoGiantsDigit = g.HomeLastDigit;
+                        break;
+                    case "Seattle Mariners":
+                        this.seattleMarinersDigit = g.HomeLastDigit;
+                        break;
+                    case "St. Louis Cardinals":
+                        this.stLouisCardinalsDigit = g.HomeLastDigit;
+                        break;
+                    case "Tampa Bay Rays":
+                        this.tampaBayRaysDigit = g.HomeLastDigit;
+                        break;
+                    case "Texas Rangers":
+                        this.texasRangersDigit = g.HomeLastDigit;
+                        break;
+                    case "Toronto Blue Jays":
+                        this.torontoBlueJaysDigit = g.HomeLastDigit;
+                        break;
+                    case "Washington Nationals":
+                        this.washingtonNationalsDigit = g.HomeLastDigit;
+                        break;
+                }
+
+                //switch g.AwayTeam
+                switch (g.AwayTeam)
+                {
+                    case "Arizona Diamondbacks":
+                        this.arizonaDiamondbacksDigit = g.AwayLastDigit;
+                        break;
+                    case "Atlanta Braves":
+                        this.atlantaBravesDigit = g.AwayLastDigit;
+                        break;
+                    case "Baltimore Orioles":
+                        this.baltimoreOriolesDigit = g.AwayLastDigit;
+                        break;
+                    case "Boston Red Sox":
+                        this.bostonRedSoxDigit = g.AwayLastDigit;
+                        break;
+                    case "Chicago Cubs":
+                        this.chicagoCubsDigit = g.AwayLastDigit;
+                        break;
+                    case "Chicago White Sox":
+                        this.chicagoWhiteSoxDigit = g.AwayLastDigit;
+                        break;
+                    case "Cincinnati Reds":
+                        this.cincinnatiRedsDigit = g.AwayLastDigit;
+                        break;
+                    case "Cleveland Indians":
+                        this.clevelandIndiansDigit = g.AwayLastDigit;
+                        break;
+                    case "Colorado Rockies":
+                        this.coloradoRockiesDigit = g.AwayLastDigit;
+                        break;
+                    case "Detroit Tigers":
+                        this.detroitTigersDigit = g.AwayLastDigit;
+                        break;
+                    case "Houston Astros":
+                        this.houstonAstrosDigit = g.AwayLastDigit;
+                        break;
+                    case "Kansas City Royals":
+                        this.kansasCityRoyalsDigit = g.AwayLastDigit;
+                        break;
+                    case "Los Angeles Angels":
+                        this.losAngelesAngelsDigit = g.AwayLastDigit;
+                        break;
+                    case "Los Angeles Dodgers":
+                        this.losAngelesDodgersDigit = g.AwayLastDigit;
+                        break;
+                    case "Miami Marlins":
+                        this.miamiMarlinsDigit = g.AwayLastDigit;
+                        break;
+                    case "Milwaukee Brewers":
+                        this.milwaukeeBrewersDigit = g.AwayLastDigit;
+                        break;
+                    case "Minnesota Twins":
+                        this.minnesotaTwinsDigit = g.AwayLastDigit;
+                        break;
+                    case "New York Mets":
+                        this.newYorkMetsDigit = g.AwayLastDigit;
+                        break;
+                    case "New York Yankees":
+                        this.newYorkYankeesDigit = g.AwayLastDigit;
+                        break;
+                    case "Oakland Athletics":
+                        this.oaklandAthleticsDigit = g.AwayLastDigit;
+                        break;
+                    case "Philadelphia Phillies":
+                        this.philadelphiaPhilliesDigit = g.AwayLastDigit;
+                        break;
+                    case "Pittsburgh Pirates":
+                        this.pittsburghPiratesDigit = g.AwayLastDigit;
+                        break;
+                    case "San Diego Padres":
+                        this.sanDiegoPadresDigit = g.AwayLastDigit;
+                        break;
+                    case "San Francisco Giants":
+                        this.sanFranciscoGiantsDigit = g.AwayLastDigit;
+                        break;
+                    case "Seattle Mariners":
+                        this.seattleMarinersDigit = g.AwayLastDigit;
+                        break;
+                    case "St. Louis Cardinals":
+                        this.stLouisCardinalsDigit = g.AwayLastDigit;
+                        break;
+                    case "Tampa Bay Rays":
+                        this.tampaBayRaysDigit = g.AwayLastDigit;
+                        break;
+                    case "Texas Rangers":
+                        this.texasRangersDigit = g.AwayLastDigit;
+                        break;
+                    case "Toronto Blue Jays":
+                        this.torontoBlueJaysDigit = g.AwayLastDigit;
+                        break;
+                    case "Washington Nationals":
+                        this.washingtonNationalsDigit = g.AwayLastDigit;
+                        break;
+                }
+                #endregion
+            }
+        }
+
+        public SessionDay()
+        {
+        }
+
         public Guid SessionDayID { get; set; }
         public Guid SessionID { get; set; }
         public DateTime SessionDayDate { get; set; }
         public int GamesThisSessionDay { get; internal set; }
 
-        public int arizonaDiamondbacksDigit {get;set;}
-        public int atlantaBravesDigit { get; set; }
-        public int baltimoreOriolesDigit { get; set; }
-        public int bostonRedSoxDigit { get; set; }
-        public int chicagoCubsDigit { get; set; }
-        public int chicagoWhiteSoxDigit { get; set; }
-        public int cincinnatiRedsDigit { get; set; }
-        public int clevelandIndiansDigit { get; set; }
-        public int coloradoRockiesDigit { get; set; }
-        public int detroitTigersDigit { get; set; }
-        public int houstonAstrosDigit { get; set; }
-        public int kansasCityRoyalsDigit { get; set; }
-        public int losAngelesAngelsDigit { get; set; }
-        public int losAngelesDodgersDigit { get; set; }
-        public int miamiMarlinsDigit { get; set; }
-        public int milwaukeeBrewersDigit { get; set; }
-        public int minnesotaTwinsDigit { get; set; }
-        public int newYorkMetsDigit { get; set; }
-        public int newYorkYankeesDigit { get; set; }
-        public int oaklandAthleticsDigit { get; set; }
-        public int philadelphiaPhilliesDigit { get; set; }
-        public int pittsburghPiratesDigit { get; set; }
-        public int sanDiegoPadresDigit { get; set; }
-        public int sanFranciscoGiantsDigit { get; set; }
-        public int seattleMarinersDigit { get; set; }
-        public int stLouisCardinalsDigit { get; set; }
-        public int tampaBayRaysDigit { get; set; }
-        public int texasRangersDigit { get; set; }
-        public int torontoBlueJaysDigit { get; set; }
-        public int washingtonNationalsDigit { get; set; }
+        public string arizonaDiamondbacksDigit {get;set;} = "-";
+        public string atlantaBravesDigit { get; set; } = "-";
+        public string baltimoreOriolesDigit { get; set; } = "-";
+        public string bostonRedSoxDigit { get; set; } = "-";
+        public string chicagoCubsDigit { get; set; } = "-";
+        public string chicagoWhiteSoxDigit { get; set; } = "-";
+        public string cincinnatiRedsDigit { get; set; } = "-";
+        public string clevelandIndiansDigit { get; set; } = "-";
+        public string coloradoRockiesDigit { get; set; } = "-";
+        public string detroitTigersDigit { get; set; } = "-";
+        public string houstonAstrosDigit { get; set; } = "-";
+        public string kansasCityRoyalsDigit { get; set; } = "-";
+        public string losAngelesAngelsDigit { get; set; } = "-";
+        public string losAngelesDodgersDigit { get; set; } = "-";
+        public string miamiMarlinsDigit { get; set; } = "-";
+        public string milwaukeeBrewersDigit { get; set; } = "-";
+        public string minnesotaTwinsDigit { get; set; } = "-";
+        public string newYorkMetsDigit { get; set; } = "-";
+        public string newYorkYankeesDigit { get; set; } = "-";
+        public string oaklandAthleticsDigit { get; set; } = "-";
+        public string philadelphiaPhilliesDigit { get; set; } = "-";
+        public string pittsburghPiratesDigit { get; set; } = "-";
+        public string sanDiegoPadresDigit { get; set; } = "-";
+        public string sanFranciscoGiantsDigit { get; set; } = "-";
+        public string seattleMarinersDigit { get; set; } = "-";
+        public string stLouisCardinalsDigit { get; set; } = "-";
+        public string tampaBayRaysDigit { get; set; } = "-";
+        public string texasRangersDigit { get; set; } = "-";
+        public string torontoBlueJaysDigit { get; set; } = "-";
+        public string washingtonNationalsDigit { get; set; } = "-";
     }
     public class Session
     {
@@ -719,39 +1245,39 @@ namespace GetScores
         public string SessionStatus { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public Player WinningPlayer { get; set; }
+        public string WinningPlayer { get; set; }
         public string WinningTeam { get; set; }
         public decimal CurrentPot { get; set; }
-        public int[] arizonaDiamondbacksDigitsNeeded { get; set; }
-        public int[] atlantaBravesDigitsNeeded { get; set; }
-        public int[] baltimoreOriolesDigitsNeeded { get; set; }
-        public int[] bostonRedsoxDigitsNeeded { get; set; }
-        public int[] chicagoCubsDigitsNeeded { get; set; }
-        public int[] chicagoWhiteSoxDigitsNeeded { get; set; }
-        public int[] cincinnatiRedsDigitsNeeded { get; set; }
-        public int[] clevelandIndiansDigitsNeeded { get; set; }
-        public int[] coloradoRockiesDigitsNeeded { get; set; }
-        public int[] detroitTigersDigitsNeeded { get; set; }
-        public int[] houstonAstrosDigitsNeeded { get; set; }
-        public int[] kansasCityRoyalsDigitsNeeded { get; set; }
-        public int[] losAngelesAngelsDigitsNeeded { get; set; }
-        public int[] losAngelesDodgersDigitsNeeded { get; set; }
-        public int[] miamiMarlinsDigitsNeeded { get; set; }
-        public int[] milwaukeeBrewersDigitsNeeded { get; set; }
-        public int[] minnesotaTwinsDigitsNeeded { get; set; }
-        public int[] newYorkMetsDigitsNeeded { get; set; }
-        public int[] newYorkYankeesDigitsNeeded { get; set; }
-        public int[] oaklandAthleticsDigitsNeeded { get; set; }
-        public int[] philadelphiaPhilliesDigitsNeeded { get; set; }
-        public int[] pittsburghPiratesDigitsNeeded { get; set; }
-        public int[] sanDiegoPadresDigitsNeeded { get; set; }
-        public int[] sanFranciscoGiantsDigitsNeeded { get; set; }
-        public int[] seattleMarinersDigitsNeeded { get; set; }
-        public int[] stLouisCardinalsDigitsNeeded { get; set; }
-        public int[] tampaBayRaysDigitsNeeded { get; set; }
-        public int[] texasRangersDigitsNeeded { get; set; }
-        public int[] torontoBlueJaysDigitsNeeded { get; set; }
-        public int[] washingtonNationalsDigitsNeeded { get; set; }
+        public string arizonaDiamondbacksDigitsNeeded { get; set; }
+        public string atlantaBravesDigitsNeeded { get; set; }
+        public string baltimoreOriolesDigitsNeeded { get; set; }
+        public string bostonRedsoxDigitsNeeded { get; set; }
+        public string chicagoCubsDigitsNeeded { get; set; }
+        public string chicagoWhiteSoxDigitsNeeded { get; set; }
+        public string cincinnatiRedsDigitsNeeded { get; set; }
+        public string clevelandIndiansDigitsNeeded { get; set; }
+        public string coloradoRockiesDigitsNeeded { get; set; }
+        public string detroitTigersDigitsNeeded { get; set; }
+        public string houstonAstrosDigitsNeeded { get; set; }
+        public string kansasCityRoyalsDigitsNeeded { get; set; }
+        public string losAngelesAngelsDigitsNeeded { get; set; }
+        public string losAngelesDodgersDigitsNeeded { get; set; }
+        public string miamiMarlinsDigitsNeeded { get; set; }
+        public string milwaukeeBrewersDigitsNeeded { get; set; }
+        public string minnesotaTwinsDigitsNeeded { get; set; }
+        public string newYorkMetsDigitsNeeded { get; set; }
+        public string newYorkYankeesDigitsNeeded { get; set; }
+        public string oaklandAthleticsDigitsNeeded { get; set; }
+        public string philadelphiaPhilliesDigitsNeeded { get; set; }
+        public string pittsburghPiratesDigitsNeeded { get; set; }
+        public string sanDiegoPadresDigitsNeeded { get; set; }
+        public string sanFranciscoGiantsDigitsNeeded { get; set; }
+        public string seattleMarinersDigitsNeeded { get; set; }
+        public string stLouisCardinalsDigitsNeeded { get; set; }
+        public string tampaBayRaysDigitsNeeded { get; set; }
+        public string texasRangersDigitsNeeded { get; set; }
+        public string torontoBlueJaysDigitsNeeded { get; set; }
+        public string washingtonNationalsDigitsNeeded { get; set; }
     }
     public class Player
     {
