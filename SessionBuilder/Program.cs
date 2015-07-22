@@ -12,6 +12,8 @@ namespace SessionBuilder
     {
         static void Main(string[] args)
         {
+
+            //Here is a change
             //Check to see if there are sessions in the db
             List<Session> sessions = DataAccess.GetSessions();
 
